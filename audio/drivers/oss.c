@@ -37,10 +37,22 @@
 #include "../../verbosity.h"
 
 #ifdef HAVE_OSS_BSD
-#define DEFAULT_OSS_DEV "/dev/audio"
+#define DEFAULT_OSS_DEV "/dev/snd/actsnd"
 #else
-#define DEFAULT_OSS_DEV "/dev/dsp"
+#define DEFAULT_OSS_DEV "/dev/snd/actsnd"
 #endif
+
+#define SNDRV_SOUTMODE 0xffff0000
+#define SNDRV_SSPEAKER 0xffff0001
+
+enum {
+    O_MODE_I2S_2 = 0,
+    O_MODE_I2S_51_TDM_A = 1,
+    O_MODE_I2S_71_TDM_A = 3,
+    O_MODE_SPDIF,
+    O_MODE_HDMI = 5,
+    I_MODE_GENERAL,
+};
 
 typedef struct oss_audio
 {
@@ -63,9 +75,23 @@ static void *oss_init(const char *device,
    if ((ossaudio->fd = open(oss_device, O_WRONLY)) < 0)
    {
       free(ossaudio);
+      RARCH_LOG("[OSS]: Error opening device\n");
       perror("open");
       return NULL;
+   } else {
+         RARCH_LOG("[OSS]: Successfully opened OSS device\n");
    }
+
+   // Add specific actions audio initialization
+   // see https://github.com/SharkAndroid/android_hardware_actions_audio
+   // 
+   // TODO: add some headphone detection so this changes dynamically
+   // TODO: The default audio mode is HDMI only, change to O_MODE_I2S_2 for headphone
+   int mOutMode = O_MODE_HDMI;
+   int mSpeakerOn = 0;
+
+   ioctl(ossaudio->fd, SNDRV_SOUTMODE, &mOutMode);
+   ioctl(ossaudio->fd, SNDRV_SSPEAKER, &mSpeakerOn);
 
    frags = (latency * rate * 4) / (1000 * (1 << 10));
    frag  = (frags << 16) | 10;
@@ -77,10 +103,15 @@ static void *oss_init(const char *device,
    format   = is_little_endian() ? AFMT_S16_LE : AFMT_S16_BE;
 
    if (ioctl(ossaudio->fd, SNDCTL_DSP_CHANNELS, &channels) < 0)
-      goto error;
+   {
+	 RARCH_LOG("[OSS]: Error allocating channels\n");
+         goto error;
 
    if (ioctl(ossaudio->fd, SNDCTL_DSP_SETFMT, &format) < 0)
       goto error;
+   } else {
+         RARCH_LOG("[OSS]: Successfully allocated channels\n");
+   }
 
    new_rate = rate;
 
@@ -219,7 +250,5 @@ audio_driver_t audio_oss = {
    oss_use_float,
    "oss",
    NULL,
-   NULL,
-   oss_write_avail,
-   oss_buffer_size,
+   NULL
 };
