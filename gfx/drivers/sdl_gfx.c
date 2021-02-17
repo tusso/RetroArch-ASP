@@ -324,7 +324,8 @@ static void *sdl_gfx_init(const video_info_t *video,
 
    vid->scaler.scaler_type      = video->smooth ? SCALER_TYPE_BILINEAR : SCALER_TYPE_POINT;
    vid->scaler.in_fmt           = video->rgb32 ? SCALER_FMT_ARGB8888 : SCALER_FMT_RGB565;
-   vid->scaler.out_fmt          = SCALER_FMT_ARGB8888;
+   //vid->scaler.out_fmt          = SCALER_FMT_ARGB8888;
+   vid->scaler.out_fmt          = SCALER_FMT_ABGR8888;
 
    vid->menu.scaler             = vid->scaler;
    vid->menu.scaler.scaler_type = SCALER_TYPE_BILINEAR;
