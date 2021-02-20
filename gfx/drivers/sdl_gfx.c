@@ -281,7 +281,7 @@ static void *sdl_gfx_init(const video_info_t *video,
       RARCH_LOG("[SDL]: Creating window @ %ux%u\n", video->width, video->height);
 
    vid->screen = SDL_SetVideoMode(video->width, video->height, 32,
-         SDL_HWSURFACE | SDL_HWACCEL | SDL_DOUBLEBUF | (video->fullscreen ? SDL_FULLSCREEN : 0));
+         SDL_SWSURFACE | SDL_HWACCEL | (video->fullscreen ? SDL_FULLSCREEN : 0));
 
    /* We assume that SDL chooses ARGB8888.
     * Assuming this simplifies the driver *a ton*.
@@ -328,7 +328,7 @@ static void *sdl_gfx_init(const video_info_t *video,
    vid->scaler.out_fmt          = SCALER_FMT_ABGR8888;
 
    vid->menu.scaler             = vid->scaler;
-   vid->menu.scaler.scaler_type = SCALER_TYPE_BILINEAR;
+   vid->menu.scaler.scaler_type = SCALER_TYPE_POINT;
 
    vid->menu.frame              = SDL_ConvertSurface(
          vid->screen, vid->screen->format, vid->screen->flags | SDL_SRCALPHA);
