@@ -5358,7 +5358,7 @@ static void setting_get_string_representation_uint_video_dingux_refresh_rate(
 }
 #endif
 
-#if defined(RS90) || defined(MIYOO)
+#if defined(RS90) || defined(MIYOO) || defined(MVSX)
 static void setting_get_string_representation_uint_video_dingux_rs90_softfilter_type(
       rarch_setting_t *setting,
       char *s, size_t len)
@@ -8400,7 +8400,7 @@ static void general_write_handler(rarch_setting_t *setting)
       case MENU_ENUM_LABEL_VIDEO_CTX_SCALING:
 #if defined(DINGUX)
       case MENU_ENUM_LABEL_VIDEO_DINGUX_IPU_FILTER_TYPE:
-#if defined(RS90) || defined(MIYOO)
+#if defined(RS90) || defined(MIYOO) || defined(MVSX)
       case MENU_ENUM_LABEL_VIDEO_DINGUX_RS90_SOFTFILTER_TYPE:
 #endif
 #endif
@@ -13059,7 +13059,7 @@ static bool setting_append_list(
                menu_settings_list_current_add_range(list, list_info, 0, DINGUX_IPU_FILTER_LAST - 1, 1, true, true);
                (*list)[list_info->index - 1].ui_type   = ST_UI_TYPE_UINT_COMBOBOX;
             }
-#if defined(RS90) || defined(MIYOO)
+#if defined(RS90) || defined(MIYOO) || defined(MVSX)
             else if (string_is_equal(settings->arrays.video_driver, "sdl_rs90"))
             {
                CONFIG_UINT(

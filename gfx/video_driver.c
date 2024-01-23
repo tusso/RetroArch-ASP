@@ -412,6 +412,8 @@ const video_driver_t *video_drivers[] = {
 #ifdef HAVE_SDL_DINGUX
 #if defined(RS90) || defined(MIYOO)
    &video_sdl_rs90,
+#elif defined(MVSX)
+   &video_sdl_mvsx,
 #else
    &video_sdl_dingux,
 #endif

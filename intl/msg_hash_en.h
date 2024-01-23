@@ -183,7 +183,7 @@ MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_DINGUX_IPU_FILTER_NEAREST,
    "Nearest Neighbour"
    )
-#if defined(RS90) || defined(MIYOO)
+#if defined(RS90) || defined(MIYOO) || defined(MVSX)
 MSG_HASH(
    MENU_ENUM_SUBLABEL_VIDEO_DINGUX_RS90_SOFTFILTER_TYPE,
    "Specify image interpolation method when 'Integer Scale' is disabled. 'Nearest Neighbour' has the least performance impact."

@@ -48,8 +48,13 @@
 #define likely(x)   __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
 
+#ifdef MVSX
+#define SDL_DINGUX_MENU_WIDTH  640
+#define SDL_DINGUX_MENU_HEIGHT 256
+#else
 #define SDL_DINGUX_MENU_WIDTH  320
 #define SDL_DINGUX_MENU_HEIGHT 240
+#endif
 
 #define SDL_DINGUX_NUM_FONT_GLYPHS 256
 

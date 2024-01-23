@@ -83,7 +83,7 @@
 
 #define RGUI_MIN_FB_HEIGHT 192
 #define RGUI_MIN_FB_WIDTH 256
-#define RGUI_MAX_FB_WIDTH 560
+#define RGUI_MAX_FB_WIDTH 1280
 
 #if defined(DINGUX)
 #if defined(RS90) && !defined(MIYOO)
@@ -92,6 +92,10 @@
 #define RGUI_DINGUX_ASPECT_RATIO RGUI_ASPECT_RATIO_3_2
 #define RGUI_DINGUX_FB_WIDTH     240
 #define RGUI_DINGUX_FB_HEIGHT    160
+#elif defined(MVSX)
+#define RGUI_DINGUX_ASPECT_RATIO RGUI_ASPECT_RATIO_4_3
+#define RGUI_DINGUX_FB_WIDTH     640
+#define RGUI_DINGUX_FB_HEIGHT    512
 #else
 /* Other Dingux devices (RG350 etc.) use a
  * fixed framebuffer size of 320x240 */

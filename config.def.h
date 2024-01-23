@@ -533,7 +533,7 @@
  * in Dingux devices */
 #define DEFAULT_DINGUX_REFRESH_RATE DINGUX_REFRESH_RATE_60HZ
 #endif
-#if defined(RS90) || defined(MIYOO)
+#if defined(RS90) || defined(MIYOO) || defined(MVSX)
 /* Sets image filtering method on the RS90
  * when integer scaling is disabled */
 #define DEFAULT_DINGUX_RS90_SOFTFILTER_TYPE DINGUX_RS90_SOFTFILTER_POINT
@@ -862,7 +862,7 @@
 #define DEFAULT_SYSTEMFILES_IN_CONTENT_DIR false
 #define DEFAULT_SCREENSHOTS_IN_CONTENT_DIR false
 
-#if defined(RS90) || defined(RETROFW) || defined(MIYOO) || defined(SWITCH) || defined(ORBIS) || defined(__WINRT__)
+#if defined(RS90) || defined(RETROFW) || defined(MIYOO) || defined(MVSX) || defined(SWITCH) || defined(ORBIS) || defined(__WINRT__)
 #define DEFAULT_MENU_TOGGLE_GAMEPAD_COMBO INPUT_COMBO_START_SELECT
 #elif defined(_XBOX1) || defined(__PS3__) || defined(_XBOX360) || defined(DINGUX)
 #define DEFAULT_MENU_TOGGLE_GAMEPAD_COMBO INPUT_COMBO_L3_R3
@@ -1571,7 +1571,7 @@
 #define DEFAULT_GFX_THUMBNAIL_UPSCALE_THRESHOLD 0
 
 #ifdef HAVE_MENU
-#if defined(RS90) || defined(MIYOO)
+#if defined(RS90) || defined(MIYOO) || defined(MVSX)
 /* The RS-90 has a hardware clock that is neither
  * configurable nor persistent, rendering it useless.
  * We therefore hide it in the menu by default. */
