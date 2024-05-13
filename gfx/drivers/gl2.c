@@ -3426,9 +3426,6 @@ static bool gl2_frame(void *data, const void *frame,
    bool use_rgba                       = (video_info->video_st_flags & VIDEO_FLAG_USE_RGBA) ? true : false;
    bool statistics_show                = video_info->statistics_show;
    bool msg_bgcolor_enable             = video_info->msg_bgcolor_enable;
-#ifndef EMSCRIPTEN
-   unsigned black_frame_insertion      = video_info->black_frame_insertion;
-#endif
    int bfi_light_frames;
    unsigned n;
    bool input_driver_nonblock_state    = video_info->input_driver_nonblock_state;
@@ -3442,10 +3439,6 @@ static bool gl2_frame(void *data, const void *frame,
 #endif
 #ifdef HAVE_GFX_WIDGETS
    bool widgets_active                 = video_info->widgets_active;
-#endif
-#ifndef EMSCRIPTEN
-   bool runloop_is_slowmotion          = video_info->runloop_is_slowmotion;
-   bool runloop_is_paused              = video_info->runloop_is_paused;
 #endif
    bool overlay_behind_menu            = video_info->overlay_behind_menu;
 
@@ -4082,6 +4075,11 @@ static const gfx_ctx_driver_t *gl2_get_context(gl2_t *gl)
       major                             = 3;
       minor                             = 0;
    }
+   else
+   {
+      major                             = 2;
+      minor                             = 0;
+   }
 #else
    enum gfx_ctx_api api                 = GFX_CTX_OPENGL_API;
 #endif
@@ -4345,7 +4343,14 @@ static void *gl2_init(const video_info_t *video,
       goto error;
 
    if (!string_is_empty(version))
-      sscanf(version, "%d.%d", &gl->version_major, &gl->version_minor);
+   {
+      if (string_starts_with(version, "OpenGL ES "))
+         sscanf(version, "OpenGL ES %d.%d", &gl->version_major, &gl->version_minor);
+      else if (string_starts_with(version, "OpenGL "))
+         sscanf(version, "OpenGL %d.%d", &gl->version_major, &gl->version_minor);
+      else
+         sscanf(version, "%d.%d", &gl->version_major, &gl->version_minor);
+   }
 
    {
       size_t len    = 0;
